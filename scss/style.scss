@@ -1,0 +1,357 @@
+$Wisteria: #8e44ad;	/*purple*/
+$Turquoise: #1abc9c;	/**/
+$BelizeHole: #2980b9;	/*blue*/
+$Carrot: #e67e22;		/*orange*/
+$MidnightBlue: #2c3e50;	/*DarkBlue*/
+$Clouds: #ecf0f1;
+$Nephritis: #27ae60;
+$Alizarin: #e74c3c; /*Light red*/
+$Orange: #f39c12; /*orange*/
+
+$LightGrey: #a8a8a8;
+$darkWhite: #f4f4f4;
+
+$Heading: 'Varela Round', sans-serif;
+$text: 'Varela', sans-serif;
+
+p {
+	font-family: $text;
+}
+
+
+.clearfix {
+	clear: both;
+}
+
+body {
+	background-image: url(../img/background.jpg);
+}
+
+/**********************************************************************************************************************/
+.header {
+	width: 100%;
+
+	.headerObjects {
+		margin: 0 auto;
+		margin-bottom: 10px;
+		max-width: 94%;
+
+		.headerSplit {
+			float: left;
+			width: 50%;
+
+			h1 {
+				color: white;
+				font-family: $Heading;
+				margin: 0;
+				padding: 5px;
+				width: 100%;
+			}
+
+			button {
+				background-color: $Carrot;
+				border: none;
+				border-radius: 2px;
+				color: white;
+				float: right;
+				margin-top: 15px;
+				padding: 4px;
+				width: 50px;
+			}
+		}
+	}
+}
+
+
+
+
+#todoModule  {
+	margin-bottom: 20px;
+
+	.LabelTodo {
+		background-color: $Turquoise;
+		border-radius: 4px 4px 0 0;
+		text-align: center;
+		
+		h2 {
+			color: white;
+			font-family: $text;
+			margin: 0px;
+			padding: 10px 0 10px 0;	
+		}
+	}
+
+	.todoContainer {
+		background-color: $Clouds;
+		height: auto;
+		margin: 0 auto;
+
+		.addTodo {
+			margin: 0 auto;
+			max-width: 590px;
+			padding: 20px 10px 20px 10px;
+
+			.todoForm {
+				margin: 0 auto;
+
+				.todoInput {
+					margin: 5px 5px 5px 5px;
+					float: left;
+
+					label {
+						color: $LightGrey;
+						display: block;
+						font-family: $text;
+						font-size: 9pt;
+					}
+
+					button {
+						background-color: $Carrot;
+						color: $darkWhite;
+						width: 40px;
+					}
+
+					select {
+						height: 25px;
+						width: 120px;
+					}
+
+					input	{
+						height: 25px;
+						padding: 2px;
+						width: 120px;
+					}
+
+					input[type=date] {
+						height: 25px;
+						width: 140px;
+					}
+
+					input[type=number] {
+						height: 25px;
+						width: 85px;
+					}
+				}
+			}
+		}
+
+		.labels {
+			background-color: $darkWhite;
+			color: $Turquoise;
+			font-family: $text;
+			font-size: 10pt;
+			height: 25px;
+
+			table {
+				width: 100%;
+
+				td {
+					text-align: center;
+					width: 19%;
+
+					select {
+						border: 1px solid $Turquoise;
+						margin: 0 auto;
+						max-width: 50px;
+					}
+				}
+			}
+		}
+
+		.list-group-item {
+
+			table {
+
+				td {
+					padding: 5px;
+					text-align: center;
+					width: 20%;
+
+					button {
+						color: $Alizarin;
+					}
+				}
+			}
+		}
+	}
+}
+
+
+
+.done-true {
+	color: $Turquoise;
+	text-decoration: line-through;
+
+	button {
+		color: $Turquoise;
+	}
+}
+
+
+#discussionModule  {
+
+	.LabelDiscussion {
+		background-color: $BelizeHole;
+		border-radius: 4px 4px 0 0;
+		text-align: center;
+		
+		h2 {
+			color: white;
+			font-family: $text;
+			margin: 0px;
+			padding: 10px 0 10px 0;	
+		}
+	}
+
+	.discussionContainer {
+		background-color: $Clouds;
+
+		.addMessage {
+			background-color: $Clouds;
+			border:none;
+			margin: 0 auto;
+			padding: 10px;
+			max-width: 485px;
+
+			.filterMemberContainer {
+
+				label {
+					color: $LightGrey;
+					display: block;
+					font-family: $text;
+					font-size: 9pt;
+					margin-left: 5px;
+				}
+
+				select {
+					float: left;
+					border-radius: 4px;
+					margin: 5px;
+					width: 95%;
+				}
+			}
+
+			textarea {
+				border-radius: 4px;
+				height: 70px;
+				margin: 5px;
+				resize: none;
+				width: 95%;
+			}
+
+			button {
+				background-color: $Carrot;
+				border: none;
+				border-radius: 2px;
+				color: $darkWhite;
+				margin-left: 5px;
+				padding: 4px;
+				width: 60px;
+			}
+		}
+
+		.list-group-item {
+			
+			.oneMessage {
+				margin-bottom: 5px;
+				padding: 2px;
+			}
+
+			.messageHeader {
+
+				.messageFrom {
+					float: left;
+					font-family: $Heading;
+					margin-right: 10px;
+				}
+
+				.messageDate {
+					float: left;
+					font-family: $text;
+					font-style: italic;
+				}
+			}
+			.messageBody {
+				
+
+				.messageText {
+					float: left;
+					font-family: $text;
+					width: 90%;
+				}
+
+				.messageButton {
+					float: left;
+					width: 10%;
+				}
+				
+			}
+		}
+	}
+}
+
+
+
+#memberModule  {
+	margin-top: 20px;
+	margin-bottom: 20px;
+
+	.LabelMember {
+		background-color: $Orange;
+		border-radius: 4px 4px 0 0;
+		text-align: center;
+		
+		h2 {
+			color: white;
+			font-family: $text;
+			margin: 0px;
+			padding: 10px 0 10px 0;	
+		}
+	}
+
+	.memberContainer {
+		background-color: $Clouds;
+
+		.addMember {
+			background-color: $Clouds;
+			margin: 0 auto;
+			padding: 10px;
+			width: 100%;
+		}
+
+		table {
+			margin: 0 auto;
+			width: 90%;
+
+			td {
+				float: left;
+				margin: 10px;
+
+				input {
+					border-radius: 4px;
+					height: 25px;
+					margin: 5px;
+					padding: 2px;
+					width: 120px;
+				}
+
+				button {
+					color: $Nephritis;
+					width: 100%;
+				}
+
+			}
+		}
+	}
+
+	.list-group-item {
+
+		.memberinfo {
+
+			p {
+				display: inline-block;
+				margin-right: 10px;
+			}
+		}
+	}
+}

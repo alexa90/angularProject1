@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html ng-app="firetube">
+
+<head>
+
+	<title>Project Application</title>
+
+	<meta charset="utf-8">
+
+	<meta name="google-site-verification" content="YNbo83xlovfRZ9Yv0lLyYCK4x2cUwtrpDYu6_HJkIak" />
+
+	<meta name="description" content="This is a project application that allow you to make todos in projects and send messages to all members in the project. It's easy to use and it will help you to have controll in your projects">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1"><!--mobile first-->
+
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.7/angular.min.js"></script>
+	<script src="https://cdn.firebase.com/v0/firebase.js"></script>
+	<script src="https://cdn.firebase.com/libs/angularfire/0.5.0/angularfire.min.js"></script><!--Include both angular and firebase-->
+	<script src="firetube.js"></script>
+
+	<script src="bootstrap/js/bootstrap.min.js"></script>
+
+	<link rel="stylesheet"  href="bootstrap/css/bootstrap.min.css" /><!--getting style-->
+
+	<link rel="stylesheet"  href="css/style.css" /><!--getting style-->
+
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"><!--take away zoom in mobile-->
+
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" ><!--the cog on the settingbutton-->
+
+	<link href='http://fonts.googleapis.com/css?family=Varela+Round|Varela' rel='stylesheet' type='text/css'>
+
+</head>
+
+<body>
+
+<!--*****************************************************
+*************************HEADER**************************
+*********************************************************-->
+	<header class="header">
+		<div class="headerObjects">
+			<div class="headerSplit">
+				<h1>Project App</h1>
+			</div>
+			<div class="headerSplit">
+				<button type="button" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-wrench"></span>
+				</button>
+			</div>
+			<div class="clearfix"></div>
+		</div class="headerObjects">
+
+	</header>
+
+
+	<main ng-controller="mainController">
+
+<!--****************************************************-->
+<!--******************MODULE TODO***********************-->
+<!--****************************************************-->
+		<section class="col-md-6">
+			<div id="todoModule">
+
+<!--***********************TODO HEADER******************-->
+				<div class="LabelTodo">
+					<h2>Todo</h2>
+				</div> <!-- end row -->
+
+<!--********************ADD TODO FORM *******************-->
+				<div class="todoContainer">
+
+					<div class="addTodo">
+						<form class="todoForm" ng-submit="addTodo()">
+
+							<div class="todoInput">
+								<!--TodoText-->
+								<label for="todoText">Todo:</label>
+								<input type="text" ng-model="todoText" required name="todoText" placeholder="Todo"/>
+							</div>
+
+							<div class="todoInput">
+								<!--Shared with-->
+								<label for="dedicate">Assign:</label>
+								<select ng-model="todoMember" ng-options="member.fname for member in members | orderByPriority | orderBy:'fname'" required>
+									<option value="">All</option>
+								</select>
+							</div>
+
+							<div class="todoInput">
+								<!--Estimate-->
+								<label for="estimate">Estimate h:</label>
+								<input type="number" id="estimate" name="estimate" min="1" max="10" ng-model="todoTime"/>
+							</div>
+
+							<div class="todoInput">
+								<!--deadline-->
+								<label for="deadline">Deadline:</label>
+								<input type="date" ng-model="todoDeadline" name="deadline" required />
+							</div>
+
+							<div class="todoInput">	
+								<!--SaveTodo-->
+								<label for="button">&nbsp;</label>
+								<button type="submit" name="button" class="btn btn-default btn-sm">
+		  						<span class="glyphicon glyphicon-plus"></span>
+								</button>
+							</div>
+							<div class="clearfix"></div>
+						</form>
+					</div>
+
+<!--********************DISPLAY TODOS********************-->
+					<div class="labels">
+						<table>
+							<td>Finished</td>
+							<td>Todo</td>
+							<td>
+								<select ng-model="filterMemberTodo" ng-options="member.fname for member in members | orderByPriority | orderBy:'fname'">
+									<option value="">All</option>
+								</select>
+							<td>Estimate</td>
+							<td>Deadline</td>
+							<td></td>
+						</table>
+					</div>
+
+					<div class="list-group-item">
+
+						<div ng-repeat="todo in todos | orderByPriority | orderBy: ['done' ,'deadline'] | filter: filterMemberTodo.fname">
+							<table>
+								<td>
+									<input type="checkbox" ng-model="todo.done" ng-change="updateTodo(todo)"/>
+								</td>
+
+								<td>
+									<span class="done-{{todo.done}}">{{todo.text}}</span>
+								</td>
+
+								<td>
+									<span class="done-{{todo.done}}">{{todo.name}}</span>
+								</td>
+
+								<td>
+									<span class="done-{{todo.done}}">{{todo.estimate}}</span>
+								</td>
+
+								<td>
+									<span class="done-{{todo.done}}">{{todo.deadline}}</span>
+								</td>
+
+								<td>
+									<!--Delete Todo button-->
+									<button type="button" class="btn btn-default btn-sm" ng-click="removeTodo( todo )">
+										<span class="glyphicon glyphicon-trash"></span>
+									</button>
+								</td>
+								<div class="clearfix"></div>
+							</table>
+							<hr>
+
+						</div>
+					</div>
+				</div><!--end todoContainer-->
+			</div> <!-- end todoModule -->
+		</section>
+
+
+
+<!--****************************************************-->
+<!--******************MODULE DISCUSSION*****************-->
+<!--****************************************************-->
+		<section class="col-md-6">
+			<div id="discussionModule">
+
+<!--******************DISCUSSION HEADER******************-->
+				<div class="LabelDiscussion">
+					<h2>Discussion</h2>
+				</div><!--end row disscution-->
+
+<!--**************MODULE DISCUSSION COMMENT FIELD********-->
+				<div class="discussionContainer">
+				
+					<!-- Add message form -->
+					<form class="addMessage" ng-submit="addMessage()">
+
+						<div class="filterMemberContainer">
+							<label for="memberDiscussion">From:</label>
+							<select ng-model="MemberDiscussion" ng-options="member.fname for member in members | orderByPriority | orderBy:'fname'" name="memberDiscussion">
+								<option value="">All</option>
+							</select>
+						</div>
+
+						<textarea ng-model="newMessage" placeholder="Write something here.."></textarea>
+						<button type="submit" class="btn btn-default btn-sm">					<span class="glyphicon glyphicon-send"></span>
+						</button>
+					</form>	
+
+					<!-- Display discussion -->
+					<div class="list-group-item">
+						<div class="oneMessage" ng-repeat="message in messages | orderByPriority | orderBy: '-date'">
+
+							<div class="messageHeader">
+
+								<div class="messageFrom"><b>{{message.from}}</b></div><div class="messageDate">{{message.date}}</div>
+
+							</div>
+
+							<div class="clearfix"></div>
+							</br>
+
+							<div class="messageBody">		<div class="messageText">		{{message.body}}</div>
+
+								<!--Delete Message button-->
+								<div class="messageButton">
+									<button type="button" class="btn btn-default btn-sm" ng-click="removeMessage( message )">
+										<span class="glyphicon glyphicon-trash"></span>
+									</button>
+								</div>
+							</div>
+							<div class="clearfix"></div>
+							<hr>	
+						</div>
+					</div>
+
+				</div> <!-- end module-body -->	
+			</div><!--end discussionModule-->
+		</section><!--end section-->
+
+
+<!--****************************************************-->
+<!--*****************MODULE MEMBERS*********************-->
+<!--****************************************************-->
+		<section class="col-md-6">
+			<div id="memberModule">
+
+<!--***********************MEMBER HEADER******************-->
+				<div class="LabelMember">
+					<h2>Members</h2>
+				</div> <!-- end row -->
+
+<!--********************ADD MEMBER FORM *******************-->
+				<div class="memberContainer">
+
+					<form class="addMember" ng-submit="addMember()">
+						
+						<table>
+							<td>
+								<!--first name-->
+								<input type="text" ng-model="fname" required placeholder="First Name"/>
+							</td>
+								
+							<td>
+								<!--last name-->
+								<input type="text" ng-model="lname" required placeholder="Last Name"/>
+							</td>
+
+							<td>
+								<!--username member-->
+								<input type="text" ng-model="username" required placeholder="Username"/>
+							</td>
+
+							<td>
+								<!--password member-->
+								<input type="password" ng-model="password" required placeholder="Password"/>
+							</td>
+
+							<td>
+								<!--Save member-->
+								<button type="submit" class="btn btn-default btn-sm">
+		  						<span class="glyphicon glyphicon-ok"></span>
+								</button>
+							</td>	
+						</table>
+					</form>
+
+<!--********************DISPLAY MEMBERS******************-->
+
+					<div class="list-group-item" ng-repeat="member in members">
+						<div class="memberinfo">
+							<!--first name-->
+							<p>{{member.fname}}</p>
+							<!--last name-->
+							<p>{{member.lname}}</p>
+							<!--username-->
+							<p>{{member.username}}</p>
+
+							<!--Delete Message button-->
+							<button type="button" class="btn btn-default btn-sm" ng-click="removeMember( member )">
+								<span class="glyphicon glyphicon-trash"></span>
+							</button>
+
+						</div>
+					</div>
+				</div><!--end memberContainer-->
+			</div> <!-- end memberModule -->
+		</section>
+
+
+	</main><!--end main-->
+
+
+</body>
+</html>
+
+
+
